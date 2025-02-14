@@ -1,0 +1,32 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="flex items-center justify-center min-h-screen bg-blue-500">  
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg"> 
+        <h1 class="text-3xl font-bold mb-6 text-center text-blue-500">Upload Video</h1> 
+   
+        <form  method="POST" enctype="multipart/form-data" >
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-semibold mb-2" for="{{ field.id_for_label }}">
+                        {{ field.label }}
+                    </label>
+                    <div class="w-full">
+                        {{ field }} 
+                    </div>
+                    {% if field.help_text %}
+                        <p class="text-gray-600 text-xs italic">{{ field.help_text }}</p>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <p class="text-red-500 text-xs italic">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <br>
+            <div class="flex items-center justify-center">
+              <button type="Submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

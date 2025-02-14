@@ -1,0 +1,51 @@
+<!-- loginpage -->
+{% extends 'index.html' %}
+{% block title %} imagepage{% endblock%}
+{% block style %}
+<style>
+  body{
+    background-color: #007bff; /* Blue background */
+  }
+  .login-container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login-form {
+    width: 100%;
+    max-width: 400px;  /* Optional: maximum width of the form */
+    padding: 30px;
+    border: 30PX;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+</style>
+{% endblock %}
+{% block content %}
+<div class="login-container">
+  <div class="login-form">
+      <h2 class="text-center mb-4">Login</h2>
+      <form action="{%url 'signin' %}" method="post">
+        {% csrf_token %}
+          <!-- Email input -->
+          <div class="form-group">
+              <label for="username">username</label>
+              <input type="text" class="form-control" id="email" placeholder="Enter your Username" required name="Uname">
+          </div>
+          <!-- Password input -->
+          <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" placeholder="Enter your password" required name="password">
+          </div>
+          <!-- Submit button -->
+          <button type="submit" class="btn btn-primary btn-block">Login</button>
+          <div class="text-center mt-3">
+              <a href="#" class="text-muted">Forgot Password?</a>
+          </div>
+      </form>
+  </div>
+</div>
+{% endblock %}

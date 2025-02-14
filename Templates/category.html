@@ -1,0 +1,38 @@
+{% extends 'index.html' %}
+{% block title %}Category {% endblock %}
+{% block content %}
+<h1 class="text-center display-4 mb-5">{{ category.name }} Videos</h1>
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4 px-4">
+    {% for video in videos %}
+    <div class="col">
+        <div class="card shadow-sm h-100">
+            <h3 class="card-header text-center">{{ video.title }}</h3>
+
+            {% if video.thumbnail %}
+            <img src="{{ video.thumbnail.url }}" alt="{{ video.title }}" class="card-img-top object-cover" style="height: 200px; object-fit: cover;">
+            {% else %}
+            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                <span class="text-muted">No Thumbnail</span>
+            </div>
+            {% endif %}
+            
+            <div class="card-body">
+                <p class="card-text text-muted">{{ video.description|truncatewords:20 }}</p>
+            </div>
+
+            <div class="card-footer text-center">
+                <a href="{% url 'videoplay' video.id %}" class="btn btn-primary w-100">
+                    <i class="bi bi-play-circle"></i> Watch
+                </a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+        <p class="fs-4 text-muted">No videos in this category yet. Check back later!</p>
+        <a href="/" class="btn btn-link">Back to Home</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

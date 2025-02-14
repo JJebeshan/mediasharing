@@ -1,0 +1,95 @@
+{% extends 'index.html' %}
+{% block title %}Player {% endblock %}
+{% block style %}
+<style>
+    /* Make the video player sticky */
+    .sticky-video-container {
+        position: -webkit-sticky; /* For Safari */
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    /* Optional: Add some space when the video becomes sticky */
+    .sticky-video-container video {
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    /* Optional: Improve mobile view of the sidebar */
+    @media (max-width: 768px) {
+        .row {
+            flex-direction: column; /* Stack the columns on smaller screens */
+        }
+
+        .col-md-8, .col-md-4 {
+            width: 100%;
+            padding: 0;
+        }
+
+        .sticky-video-container {
+            margin-bottom: 20px;
+        }
+    }
+
+    /* Scrollable Recommended Videos */
+    .recommended-videos {
+        height: 500px; /* Set the height for scrolling */
+        overflow-y: auto; /* Allow vertical scrolling */
+    }
+
+    /* Add some margin between the cards */
+    .recommended-videos .card {
+        margin-bottom: 15px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">{{ video.title }}</h1>
+
+<div class="row">
+    <!-- Video Player Section (left side) -->
+    <div class="col-md-8">
+        <div class="sticky-video-container">
+            <video controls>
+                <source src="{{ video.file.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h3>Description</h3>
+        <p>{{ video.description }}</p>
+        <p><strong>Uploaded at:</strong> {{ video.uploaded_at }}</p>
+
+        <h4 class="mt-4">Recommended</h4>
+        <div class="recommended-videos">
+            {% for recommended_video in x %}
+            <div class="card shadow-sm mb-3">
+                <h5 class="card-header text-center">{{ recommended_video.title }}</h5>
+
+                {% if recommended_video.thumbnail %}
+                <img src="{{ recommended_video.thumbnail.url }}" alt="{{ recommended_video.title }}" class="card-img-top object-cover" style="height: 200px; object-fit: cover;">
+                {% else %}
+                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                    <span class="text-muted">No Thumbnail</span>
+                </div>
+                {% endif %}
+
+                <div class="card-body">
+                    <p class="card-text text-muted">{{ recommended_video.description|truncatewords:20 }}</p>
+                </div>
+
+                <div class="card-footer text-center">
+                    <a href="{% url 'videoplay' recommended_video.id %}" class="btn btn-primary w-100">
+                        <i class="bi bi-play-circle"></i> Watch
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
